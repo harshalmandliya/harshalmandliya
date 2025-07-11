@@ -1,5 +1,5 @@
 # 💫 About Me:
-🌱 I’m currently learning Web Development, Data Structures & Algorithms, and Cybersecurity. Also exploring Machine Learning.<br><br>🎓 Currently pursuing B.E. in Computer Science & Engineering (Cyber Security) at Dayananda Sagar College of Engineering.
+🌱 I’m currently learning Web Development, Data Structures & Algorithms, and Cybersecurity. Also exploring java Development.<br><br>🎓 Currently pursuing B.E. in Computer Science & Engineering (Cyber Security) at Dayananda Sagar College of Engineering.
 
 
 ## 🌐 Socials:
