@@ -1,1 +1,33 @@
-name: CI\n\non:\n  push:\n    branches: [ main ]\n  pull_request:\n    branches: [ main ]\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n\n    permissions:\n      contents: write\n\n    steps:\n      - name: Checkout code\n        uses: actions/checkout@v4\n        with:\n          fetch-depth: 0\n\n      - name: Execute Contribution Graph\n        uses: abozanona/pacman-contribution-graph@v1\n        with:\n          github_token: ${{ secrets.GITHUB_TOKEN }}\n\n      - name: Display Graph\n        run: |\n          if [ ! -f contribution-graph.svg ]; then\n            echo 'Error: contribution-graph.svg was not generated.';\n            exit 1;\n          fi;\n          # Further commands to display or upload the graph\n          
+name: Generate pacman animation
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    env:
+      NODE_OPTIONS: --max-old-space-size=8192
+
+    steps:
+      - name: Generate pacman contribution graph
+        uses: abozanona/pacman-contribution-graph@main
+        with:
+          github_user_name: ${{ github.repository_owner }}
+
+      - name: Push pacman graph to output branch
+        uses: crazy-max/ghaction-github-pages@v3.1.0
+        with:
+          target_branch: output
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
