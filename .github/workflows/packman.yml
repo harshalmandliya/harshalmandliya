@@ -1,34 +1,21 @@
-name: Generate pacman animation
+name: Packman
 
 on:
-  schedule:
-    - cron: "0 */12 * * *"
-  workflow_dispatch:
   push:
     branches:
       - main
 
 jobs:
-  generate:
+  packman:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-
-    permissions:
-      contents: write
-
-    env:
-      NODE_OPTIONS: --max-old-space-size=8192
-
     steps:
-      - name: Generate pacman contribution graph
-        uses: abozanona/pacman-contribution-graph@v2
-        with:
-          github_user_name: ${{ github.repository_owner }}
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      - name: Push pacman graph to output branch
-        uses: crazy-max/ghaction-github-pages@v3.1.0
-        with:
-          target_branch: output
-          build_dir: dist
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Generate Contribution Graph
+        uses: abozanona/pacman-contribution-graph@main
+
+      - name: Display Graph
+        run: |
+          cat contribution-graph.svg
+          echo "Generated Contribution Graph"
